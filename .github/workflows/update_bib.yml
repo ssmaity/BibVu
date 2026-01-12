@@ -27,4 +27,4 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add updated_metadata.bib
           git commit -m "Auto-update metadata" || echo "No changes"
-          git push
+          git push origin master  # Force push to the master branch
