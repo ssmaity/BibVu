@@ -1,0 +1,30 @@
+name: Update Bibliography Metadata
+
+on:
+  push:
+    paths:
+      - 'input.bib'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Run Citation Key Generator
+        run: python gencitekey.py # Processes input.bib -> updated_metadata.bib
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add updated_metadata.bib
+          git commit -m "Auto-update metadata" || echo "No changes"
+          git push
